@@ -1,0 +1,25 @@
+#!/usr/bin/env nix-shell
+#!nix-shell -i bash ../default.nix
+
+set -e
+set -u
+PS4=" $ "
+set -x
+
+project_dir="$(dirname "${BASH_SOURCE[0]}")/.."
+cd "$project_dir"
+
+source ".env"
+
+# Removes older channels data
+rm -rf channels/
+
+# Generates the new channels data
+bash bin/generate-packages-json
+
+# The copied result is read-only.
+# This fixes it.
+ssh "$DEPLOY_SERVER" chmod +w "$DEPLOY_PATH"
+
+# Copies the new channel data.
+rsync --recursive channels "$DEPLOY_SERVER":"$DEPLOY_PATH"

@@ -1,0 +1,28 @@
+#!/usr/bin/env nix-shell
+#!nix-shell -i bash ../default.nix
+
+set -e
+set -u
+PS4=" $ "
+set -x
+
+project_dir="$(dirname "${BASH_SOURCE[0]}")/.."
+cd "$project_dir"
+
+source ".env"
+
+# # Updates nix dependencies.
+# # (This should already have happened and have been comitted)
+# bash -l -c "./bin/yarn2nix-update.sh"
+
+# Ensures we don't accidentally use an older build
+rm -f result
+
+# Removes older channels data
+rm -rf channels/
+
+# Build
+nix-build ./release.nix
+
+# Copy the current build.
+rsync --recursive result/website/ "$DEPLOY_SERVER:$DEPLOY_PATH"
