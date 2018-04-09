@@ -48,20 +48,19 @@ const NotSpecified = () => <em>Not specified</em>;
 const hydraLink = (attribute, platform, branch) => `https://hydra.nixos.org/job/${branch}/nixpkgs.${attribute}.${platform}`;
 const githubLink = (commit, position) => `https://github.com/NixOS/nixpkgs/blob/${commit}/${position.replace(":", "#L")}`;
 
-// FIXME : fetch likely channel name (nixpkgs/nixos)
-const Install = ({result}) =>
+const Install = use(["channel_data"], [], ({result, channel_data: {channel_name}}) =>
 	<tr>
 		<th>Install command</th>
 		<td>
 			<tt>
 				<span class="command">
-					nix-env -iA nixos.<span class="attrname">{result["attr"]}</span>
+					nix-env -iA {channel_name}.<span class="attrname">{result["attr"]}</span>
 				</span>
 			</tt>
 			{" "}<em class="muted">(NixOS channel)</em>
 		</td>
 	</tr>
-;
+);
 
 const Unfree = ({result}) => {
 	if (isUnfree(get(result, "meta.license"))) {
