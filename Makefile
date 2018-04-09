@@ -100,7 +100,8 @@ $(NIXPKGS_MANUAL_IN):
 
 all: $(HTML) favicon.png $(subst .png,-small.png,$(filter-out %-small.png,$(wildcard nixos/screenshots/*))) \
   nixos/packages-explorer.js \
-  nixpkgs/packages.json.gz \
+  nixpkgs/packages-channels.json \
+  nixpkgs/packages-nixos-$(NIXOS_SERIES).json.gz \
   nixpkgs/packages-unstable.json.gz \
   nixos/options.json.gz \
   nix/install nix/install.sig
@@ -214,7 +215,17 @@ endif
 	gzip -9 < $^ > $@.tmp
 	mv $@.tmp $@
 
-nixpkgs/packages.json:
+# channel data made available. Also the name shown in the `<select>`.
+EXPLORER_CHANNELS = nixos-18.03 unstable
+
+nixpkgs/packages-channels.json: Makefile
+	( \
+	echo -n '["' ;\
+	echo -n $(EXPLORER_CHANNELS) | sed 's/ /","/g' ;\
+	echo -n '"]' ;\
+	) > $@
+
+nixpkgs/packages-nixos-$(NIXOS_SERIES).json:
 	nixpkgs=$$(nix-instantiate --find-file nixpkgs -I nixpkgs=$(NIXPKGS)); \
 	(echo -n '{ "commit": "' && cat $$nixpkgs/.git-revision && echo -n '","packages":' \
 	  && nix-env -f '<nixpkgs>' -I nixpkgs=$(NIXPKGS) -qa --json --arg config '{}' \

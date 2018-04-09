@@ -21,7 +21,7 @@
 /nixpkgs/manual/
 /nixpkgs/manual-raw
 /nixpkgs/packages-unstable.json*
-/nixpkgs/packages.json*
+/nixpkgs/packages*.json*
 
 /blogs.json
 /blogs.xml
