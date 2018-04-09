@@ -142,7 +142,7 @@ class State extends Component {
 	fetch_channels() {
 		this.setState({loading: this.state.loading + 1});
 
-		return fetch("channels/packages_channels.json", {mode: "cors"})
+		return fetch("/nixpkgs/packages-channels.json", {mode: "cors"})
 			.then((response) => response.json())
 			.then((channels) => {
 				this.setState({
@@ -163,7 +163,7 @@ class State extends Component {
 	fetch_channel() {
 		const {channel} = this.state;
 		this.setState({loading: this.state.loading + 1});
-		fetch(`channels/packages_${channel}.json`, {mode: "cors"})
+		fetch(`/nixpkgs/packages-${channel}.json`, {mode: "cors"})
 			.then((response) => response.json())
 			.then((channel_data) => {
 				// Ensures we update only for the currently selected channel.

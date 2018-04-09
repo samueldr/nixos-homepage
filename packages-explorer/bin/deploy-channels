@@ -12,7 +12,7 @@ cd "$project_dir"
 source ".env"
 
 # Removes older channels data
-rm -rf channels/
+rm -f nixpkgs/packages-*.json*
 
 # Generates the new channels data
 bash bin/generate-packages-json

@@ -19,7 +19,7 @@ source ".env"
 rm -f result
 
 # Removes older channels data
-rm -rf channels/
+rm -f nixpkgs/packages-*.json*
 
 # Build
 nix-build ./release.nix

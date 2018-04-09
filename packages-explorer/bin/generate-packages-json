@@ -9,7 +9,7 @@ set -x
 
 unset NIX_PATH
 
-PUBLIC="$PWD/channels/"
+PUBLIC="$PWD/nixpkgs/"
 
 join() { local IFS="$1"; shift; echo -n "$*"; }
 
@@ -27,7 +27,7 @@ generate() {
 	local CHANNEL="$1"
 	shift
 	local NIXPKGS="https://nixos.org/channels/${CHANNEL}/nixexprs.tar.xz"
-	local FILENAME="packages_${CHANNEL}.json.gz"
+	local FILENAME="packages-${CHANNEL}.json.gz"
 
 	mkdir -p tmp
 	(
@@ -66,4 +66,4 @@ for series in "${SERIES[@]}"; do
 	generate "$series"
 done
 
-series_array "${SERIES[@]}" > ${PUBLIC}/packages_channels.json
+series_array "${SERIES[@]}" > ${PUBLIC}/packages-channels.json
