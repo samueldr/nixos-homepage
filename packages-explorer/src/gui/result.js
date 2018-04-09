@@ -182,10 +182,10 @@ const Maintainers = ({result: {meta: {maintainers}}}) =>
 const LongDescription = ({result: {meta: {longDescription}}}) =>
 	<tr>
 		<th>Long description</th>
-		<td>
+		<td class="long-description pre">
 			{
 				longDescription && longDescription.length > 0
-					? <pre>{longDescription}</pre>
+					? <div>{longDescription}</div>
 					: <NotSpecified />
 			}
 		</td>
