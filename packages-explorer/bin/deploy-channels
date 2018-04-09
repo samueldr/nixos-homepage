@@ -22,4 +22,4 @@ bash bin/generate-packages-json
 ssh "$DEPLOY_SERVER" chmod +w "$DEPLOY_PATH"
 
 # Copies the new channel data.
-rsync --recursive channels "$DEPLOY_SERVER":"$DEPLOY_PATH"
+rsync --recursive nixpkgs "$DEPLOY_SERVER":"$DEPLOY_PATH"
