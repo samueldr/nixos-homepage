@@ -1,13 +1,15 @@
-NixOS.org
-=========
+`packages-explorer`
+===================
 
-This repository contains the sources of the `nixos.org` website.  To
-build it:
+Development use
+---------------
 
-    $ git clone git@github.com:NixOS/nixos-homepage.git
-    $ cd nixos-homepage
-    $ nix-shell
-    [nix-shell]$ make
-    [nix-shell]$ python2 -m SimpleHTTPServer 8000
+```
+ $ bin/webpack
+```
 
-then open http://127.0.0.1:8000/index.html
+Or with watcher:
+
+```
+ $ bin/webpack-dev-server
+```
