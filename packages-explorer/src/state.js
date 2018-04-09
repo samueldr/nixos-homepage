@@ -106,21 +106,28 @@ class State extends Component {
 		const {history} = window;
 		const params = this.url_params_for_state(new_state);
 
-		if (!force && isEqual(params, pick(this.state, SYNCHRONIZED))) {
-			// set_state won't fire on "identity" change.
-			return Promise.resolve({});
+		// Applies the state change.
+		super.setState(new_state, ...args);
+
+		// History modification won't fire on "identity" change.
+		if (!force && isEqual(params, queryString.parse(window.location.search))) {
+			return;
 		}
 
-		if (push) {
-			if (queryString.stringify(params).length > 0) {
-				history.pushState(params, "", `?${queryString.stringify(params)}`);
-			}
-			else {
-				history.pushState(params, "", window.location.pathname);
-			}
+		let method = push ? "pushState" : "replaceState";
+
+		// Assumes that from no querystring to querystring is replace.
+		// This saves one "weird" state replacement.
+		if (Object.keys(params).length > 0 && window.location.search.length === 0) {
+			method = "replaceState";
 		}
 
-		return super.setState(new_state, ...args);
+		if (queryString.stringify(params).length > 0) {
+			history[method](params, "", `?${queryString.stringify(params)}`);
+		}
+		else {
+			history[method](params, "", window.location.pathname);
+		}
 	}
 
 	componentDidUpdate(prev_props, prev_state) {
@@ -304,7 +311,10 @@ class State extends Component {
 			if (k === "page" && params[k] <= 1) {
 				Reflect.deleteProperty(params, k);
 			}
-			if (!params[k]) {
+			if (params[k]) {
+				params[k] = params[k].toString();
+			}
+			else {
 				Reflect.deleteProperty(params, k);
 			}
 		});
