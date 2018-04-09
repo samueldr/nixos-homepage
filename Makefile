@@ -228,7 +228,7 @@ nixpkgs/packages-channels.json: Makefile
 nixpkgs/packages-nixos-$(NIXOS_SERIES).json:
 	nixpkgs=$$(nix-instantiate --find-file nixpkgs -I nixpkgs=$(NIXPKGS)); \
 	(echo -n '{ "commit": "' && cat $$nixpkgs/.git-revision && echo -n '","packages":' \
-	  && nix-env -f '<nixpkgs>' -I nixpkgs=$(NIXPKGS) -qa --json --arg config '{}' \
+	  && nix-env -f '<nixpkgs>' -I nixpkgs=${NIXPKGS} -qa --json --arg config '{allowUnfree = true;}' \
 	  && echo -n '}') \
 	  | sed "s|$$nixpkgs/||g" > $@.tmp
 	python -mjson.tool < $@.tmp > /dev/null
@@ -237,7 +237,7 @@ nixpkgs/packages-nixos-$(NIXOS_SERIES).json:
 nixpkgs/packages-unstable.json:
 	nixpkgs=$$(nix-instantiate --find-file nixpkgs -I nixpkgs=$(NIXPKGS_UNSTABLE)); \
 	(echo -n '{ "commit": "' && cat $$nixpkgs/.git-revision && echo -n '","packages":' \
-	  && nix-env -f '<nixpkgs>' -I nixpkgs=$(NIXPKGS_UNSTABLE) -qa --json --arg config '{}' \
+	  && nix-env -f '<nixpkgs>' -I nixpkgs=${NIXPKGS_UNSTABLE} -qa --json --arg config '{allowUnfree = true;}' \
 	  && echo -n '}') \
 	  | sed "s|$$nixpkgs/||g" > $@.tmp
 	python -mjson.tool < $@.tmp > /dev/null
