@@ -99,6 +99,7 @@ $(NIXPKGS_MANUAL_IN):
 
 
 all: $(HTML) favicon.png $(subst .png,-small.png,$(filter-out %-small.png,$(wildcard nixos/screenshots/*))) \
+  nixos/packages-explorer.js \
   nixpkgs/packages.json.gz \
   nixpkgs/packages-unstable.json.gz \
   nixos/options.json.gz \
@@ -241,3 +242,9 @@ nix/install.sig: nix/install
 		mv $@.tmp $@; \
 	fi
 	touch $@
+
+EXPLORER_JS = $(shell find packages-explorer/ -not -path 'packages-explorer/node_modules/*')
+
+nixos/packages-explorer.js: $(EXPLORER_JS)
+	(cd packages-explorer ; yarn install)
+	(cd packages-explorer ; NIXOS_HOMEPAGE_BUILD=true bin/webpack -p --output-path ../nixos/)

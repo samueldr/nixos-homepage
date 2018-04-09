@@ -1,5 +1,8 @@
 with import (fetchTarball channel:nixos-18.03) {};
 
+let
+  packages-explorer = (import ./packages-explorer){};
+in
 stdenv.mkDerivation {
   name = "nixos.org-homepage";
 
@@ -17,5 +20,5 @@ stdenv.mkDerivation {
       nixStable
       gnupg
       jq
-    ];
+    ] ++ packages-explorer.buildInputs;
 }

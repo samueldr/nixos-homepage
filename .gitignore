@@ -16,6 +16,7 @@
 /nixos/nix-pills-raw
 /nixos/options.json*
 /nixos/screenshots/nixos-*-small.png
+/nixos/packages-explorer.js
 
 /nixpkgs/manual/
 /nixpkgs/manual-raw

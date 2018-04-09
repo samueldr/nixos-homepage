@@ -2,10 +2,23 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
+const plugins = [];
+
+if (!process.env.NIXOS_HOMEPAGE_BUILD) {
+	plugins.push(
+		new HtmlWebpackPlugin({
+			hash: true,
+			template: "src/app.html",
+		})
+	);
+}
+
+// When building stand-alone, build the index.html file.
+
 module.exports = {
 	entry: "./src/index.js",
 	output: {
-		filename: "bundle.js",
+		filename: "packages-explorer.js",
 		path: path.resolve(__dirname, "dist")
 	},
 	resolve: {
@@ -40,10 +53,5 @@ module.exports = {
 			},
 		]
 	},
-	plugins: [
-		new HtmlWebpackPlugin({
-			hash: true,
-			template: "src/app.html",
-		})
-	]
+	plugins: plugins,
 };
