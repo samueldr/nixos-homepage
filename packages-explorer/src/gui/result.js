@@ -70,7 +70,7 @@ const Unfree = ({result}) => {
 					<em>
 						This package is unfree.
 						See <a href="https://nixos.org/nixpkgs/manual/#sec-allow-unfree">chapter 6.2</a> of
-						the manual for more informations.
+						the manual for more information.
 					</em>
 				</td>
 			</tr>
